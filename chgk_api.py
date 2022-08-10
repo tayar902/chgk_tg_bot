@@ -20,13 +20,23 @@ i = 0
 
 def get_question(all_text):
     global i
-    res = requests.get("https://db.chgk.info/random/answers/types1/ \
-                           complexity2/795102375/limit1")
-    soup = BeautifulSoup(res.text, 'html.parser')
-    tournament = soup.find('div', {'class': 'random_question'}). \
-        find('a').text
-    question = 'Турнир: ' + str(tournament) + '\n\n' + 'Вопрос:\n'
-    i = 0
+    try:
+        res = requests.get("https://db.chgk.info/random/answers/types1/ \
+                            complexity2/795102375/limit1")
+        soup = BeautifulSoup(res.text, 'html.parser')
+        try:
+            soup.find('div', {'class': 'random_question'}). \
+                find('a').text
+            tournament = soup.find('div', {'class': 'random_question'}). \
+                find('a').text
+            question = 'Турнир: ' + str(tournament) + '\n\n' + 'Вопрос:\n'
+        except ConnectionError:
+            with open('log.txt', 'a') as output_f:
+                output_f.write(asctime() + ': ' + 'ConnectionError\n')
+        i = 0
+    except ConnectionError:
+        with open('log.txt', 'a') as output_f:
+            output_f.write(asctime() + ': ' + 'ConnectionError\n')
     try:
         all_text[i]
         while True:
