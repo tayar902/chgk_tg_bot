@@ -27,12 +27,12 @@ def handle_text(message):
         question = ''
         global outp
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        check_input.append(message.text.strip())
+        check_input.append(message.text.strip().lower())
         print(check_input)
-        if message.text.strip() == 'Вопрос ЧГК':
+        if message.text.strip().lower().lower() == 'вопрос чгк':
             item2 = types.KeyboardButton("Ответ")
             markup.add(item2)
-            if check_input == ['Вопрос ЧГК']:
+            if check_input == ['вопрос чгк']:
                 question = chgk_api.get_question(all_text)
                 outp = ''
                 outp = chgk_api.get_answer(all_text)
@@ -42,10 +42,10 @@ def handle_text(message):
                 del check_input[0]
             bot.send_message(message.chat.id, 'Нажмите "Ответ", чтобы '
                              + 'получить ответ')
-        elif message.text.strip() == 'Ответ':
+        elif message.text.strip().lower() == 'ответ':
             item1 = types.KeyboardButton("Вопрос ЧГК")
             markup.add(item1)
-            if check_input == ['Вопрос ЧГК', 'Ответ']:
+            if check_input == ['вопрос чгк', 'ответ']:
                 answer = outp
             else:
                 answer = 'Вы не запросили вопрос!'
