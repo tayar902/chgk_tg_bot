@@ -30,13 +30,13 @@ def handle_text(message):
         check_input.append(message.text.strip())
         print(check_input)
         if message.text.strip() == 'Вопрос ЧГК':
+            item2 = types.KeyboardButton("Ответ")
+            markup.add(item2)
             if check_input == ['Вопрос ЧГК']:
                 question = chgk_api.get_question(all_text)
                 outp = ''
                 outp = chgk_api.get_answer(all_text)
                 answer = question
-                item2 = types.KeyboardButton("Ответ")
-                markup.add(item2)
                 bot.send_message(message.chat.id, answer, reply_markup=markup)
             else:
                 del check_input[0]
