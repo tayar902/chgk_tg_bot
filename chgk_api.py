@@ -54,22 +54,22 @@ def get_question(all_text):
 
 def get_answer(all_text):
     global i
-    outp = ''
+    answer = ''
     try:
         all_text[i]
         while True:
             if all_text[i] == 'Ответ:':
                 try:
                     all_text[i]
-                    while (all_text[i] != 'Случайный' and
-                           all_text[i + 1] != 'пакет'):
-                        outp += all_text[i] + ' '
-                        if (all_text[i+1] == 'Комментарий:' or
-                            all_text[i+1] == 'Источник(и):' or
-                            all_text[i+1] == 'Зачёт:' or
-                                all_text[i+1] == 'Автор:' or
-                                all_text[i+1] == 'Авторы:'):
-                            outp += '\n\n'
+                    while (all_text[i][-1] != '.' and
+                           all_text[i+1] != 'Комментарий:' and
+                           all_text[i+1] != 'Источник(и):' and
+                           all_text[i+1] != 'Автор:' and
+                           all_text[i+1] != 'Авторы:' and
+                           all_text[i+1] != 'Зачёт:' and
+                           all_text[i+1] +
+                           all_text[i+2] != 'Случайныйпакет'):
+                        answer += all_text[i+1] + ' '
                         i += 1
                     break
                 except IndexError:
@@ -79,7 +79,34 @@ def get_answer(all_text):
     except IndexError:
         with open('log.txt', 'a') as output_f:
             output_f.write(asctime() + ': ' + 'IndexError\n')
-    return outp
+    # answer = answer[:-2]
+    return answer
 
 
-get_question(get_all_text())
+def get_comment(all_text):
+    comment = ''
+    global i
+    try:
+        all_text[i]
+        while True:
+            if all_text[i] == 'Комментарий:' or all_text[i] == 'Источник(и):':
+                try:
+                    all_text[i]
+                    while (all_text[i] +
+                           all_text[i+1] != 'Случайныйпакет'):
+                        comment += all_text[i] + ' '
+                        if (all_text[i+1] == 'Источник(и):' or
+                            all_text[i+1] == 'Зачёт:' or
+                            all_text[i+1] == 'Автор:' or
+                                all_text[i+1] == 'Авторы:'):
+                            comment += '\n\n'
+                        i += 1
+                    break
+                except IndexError:
+                    with open('log.txt', 'a') as output_f:
+                        output_f.write(asctime() + ': ' + 'IndexError\n')
+            i += 1
+    except IndexError:
+        with open('log.txt', 'a') as output_f:
+            output_f.write(asctime() + ': ' + 'IndexError\n')
+    return comment
