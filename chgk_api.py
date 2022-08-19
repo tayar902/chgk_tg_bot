@@ -3,14 +3,17 @@ from bs4 import BeautifulSoup
 from time import asctime
 
 
-def get_all_text():
-    all_text = []
+def get_soup():
     res = requests.get("https://db.chgk.info/random/answers/types1/ \
-                           complexity2/795102375/limit1")
+                        complexity2/795102375/limit1")
     with open('log.txt', 'a') as output_f:
         output_f.write(asctime() + ': ' + str(res) + '\n')
-    txt = res.text
-    soup = BeautifulSoup(txt, 'html.parser')
+    soup = BeautifulSoup(res.text, 'html.parser')
+    return soup
+
+
+def get_all_text(soup):
+    all_text = []
     all_text = soup.get_text().split()
     return all_text
 
@@ -18,25 +21,26 @@ def get_all_text():
 i = 0
 
 
-def get_question(all_text):
+def get_question(all_text, soup):
     global i
+    question = ''
     try:
-        res = requests.get("https://db.chgk.info/random/answers/types1/ \
-                            complexity2/795102375/limit1")
-        soup = BeautifulSoup(res.text, 'html.parser')
-        try:
-            soup.find('div', {'class': 'random_question'}). \
-                find('a').text
-            tournament = soup.find('div', {'class': 'random_question'}). \
-                find('a').text
-            question = 'Турнир: ' + str(tournament) + '\n\n' + 'Вопрос:\n'
-        except ConnectionError:
-            with open('log.txt', 'a') as output_f:
-                output_f.write(asctime() + ': ' + 'ConnectionError\n')
-        i = 0
-    except ConnectionError:
+        soup.find('div', {'class': 'random_question'}). \
+            find('a').text
+        tournament = soup.find('div', {'class': 'random_question'}). \
+            find('a').text
+        question = 'Турнир: ' + str(tournament) + '\n\n' + 'Вопрос:\n'
+    except AttributeError:
         with open('log.txt', 'a') as output_f:
-            output_f.write(asctime() + ': ' + 'ConnectionError\n')
+            output_f.write(asctime() + ': ' + 'AttributeError\n')
+    i = 0
+    try:
+        img_html = soup.find('img')
+        img = img_html['src']
+        if img[0:6] == 'https:':
+            question += img + '\n'
+    except requests.exceptions.MissingSchema:
+        question += ''
     try:
         all_text[i]
         while True:

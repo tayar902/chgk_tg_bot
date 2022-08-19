@@ -30,7 +30,8 @@ def start(m):
 @bot.message_handler(content_types=["text"])
 def handle_text(message):
     try:
-        all_text = chgk_api.get_all_text()
+        soup = chgk_api.get_soup()
+        all_text = chgk_api.get_all_text(soup)
         outp_message = ''
         question = ''
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -42,7 +43,7 @@ def handle_text(message):
                 item2 = types.KeyboardButton("Ответ")
                 markup.add(item2)
                 if id_dct[user_id][0] == ['вопрос чгк']:
-                    question = chgk_api.get_question(all_text)
+                    question = chgk_api.get_question(all_text, soup)
                     id_dct[user_id][1][0] = chgk_api.get_answer(all_text)
                     id_dct[user_id][1][1] = chgk_api.get_comment(all_text)
                     outp_message = question
@@ -76,7 +77,8 @@ def handle_text(message):
                 if id_dct[user_id][0][0] == 'вопрос чгк':
                     bot.send_message(message.chat.id, 'Ответ неверный :(\n')
                 else:
-                    bot.send_message(message.chat.id, 'Вы ввели незнакомую команду'
+                    bot.send_message(message.chat.id, 'Вы ввели незнакомую \
+                        команду'
                                      + '\nНажмите "Вопрос ЧГК" для получения '
                                      + 'вопроса')
                 del id_dct[user_id][0][-1]
