@@ -79,7 +79,6 @@ def get_answer(all_text):
     except IndexError:
         with open('log.txt', 'a') as output_f:
             output_f.write(asctime() + ': ' + 'IndexError\n')
-    # answer = answer[:-2]
     return answer
 
 
