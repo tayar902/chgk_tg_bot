@@ -21,7 +21,7 @@ def start(m):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = types.KeyboardButton("Вопрос ЧГК")
     markup.add(item1)
-    user_id = m.from_user.id
+    user_id = m.chat.id
     id_dct[user_id] = [[], ['', '']]
     bot.send_message(m.chat.id, 'Нажмите: \nВопрос ЧГК для получения вопроса',
                      reply_markup=markup)
@@ -36,7 +36,7 @@ def handle_text(message):
         question = ''
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         global id_dct
-        user_id = message.from_user.id
+        user_id = message.chat.id
         try:
             id_dct[user_id][0].append(message.text.strip().lower())
             if message.text.strip().lower() == 'вопрос чгк':
@@ -77,16 +77,17 @@ def handle_text(message):
                 if id_dct[user_id][0][0] == 'вопрос чгк':
                     bot.send_message(message.chat.id, 'Ответ неверный :(\n')
                 else:
-                    bot.send_message(message.chat.id, 'Вы ввели незнакомую \
-                        команду'
-                                     + '\nНажмите "Вопрос ЧГК" для получения '
+                    bot.send_message(message.chat.id, 'Вы ввели \
+                                        незнакомую команду \
+                        \nНажмите "Вопрос ЧГК" для получения '
                                      + 'вопроса')
                 del id_dct[user_id][0][-1]
         except KeyError:
             bot.send_message(message.chat.id, 'Введите комманду /start')
+        print(id_dct, '\n\n')
     except ConnectionError:
         with open('log.txt', 'a') as output_f:
             output_f.write(asctime() + ': ' + 'ConnectionError\n')
 
 
-bot.polling(none_stop=True, interval=0)
+bot.infinity_polling()
