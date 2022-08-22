@@ -30,7 +30,7 @@ def get_question(all_text, soup):
             find('a').text
         question = 'Турнир: ' + str(tournament) + '\n\n' + 'Вопрос:\n'
     except AttributeError:
-        print(asctime() + ': ' + 'AttributeError\n')
+        print(asctime() + ': ' + 'AttributeError in get_question\n')
     i = 0
     try:
         img_html = soup.find('img')
@@ -49,7 +49,7 @@ def get_question(all_text, soup):
                 break
             i += 1
     except IndexError:
-        print(asctime() + ': ' + 'IndexError in question\n')
+        print(asctime() + ': ' + 'IndexError in get_question\n')
     return question
 
 
@@ -74,10 +74,10 @@ def get_answer(all_text):
                         i += 1
                     break
                 except IndexError:
-                    print(asctime() + ': ' + 'IndexError\n')
+                    print(asctime() + ': ' + 'IndexError in get_answer\n')
             i += 1
     except IndexError:
-        print(asctime() + ': ' + 'IndexError\n')
+        print(asctime() + ': ' + 'IndexError in get_answer\n')
     return answer
 
 
@@ -101,8 +101,8 @@ def get_comment(all_text):
                         i += 1
                     break
                 except IndexError:
-                    print(asctime() + ': ' + 'IndexError\n')
+                    print(asctime() + ': ' + 'IndexError in get_comment\n')
             i += 1
     except IndexError:
-        print(asctime() + ': ' + 'IndexError\n')
+        print(asctime() + ': ' + 'IndexError in get_comment\n')
     return comment
