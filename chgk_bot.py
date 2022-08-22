@@ -87,8 +87,7 @@ def handle_text(message):
         except KeyError:
             bot.send_message(message.chat.id, 'Введите комманду /start')
     except ConnectionError:
-        with open('log.txt', 'a') as output_f:
-            output_f.write(asctime() + ': ' + 'ConnectionError\n')
+        print(asctime() + ': ' + 'ConnectionError\n')
 
 
 bot.infinity_polling()
