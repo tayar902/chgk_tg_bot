@@ -3,16 +3,18 @@ from telebot import types
 from time import asctime
 import chgk_api
 from difflib import SequenceMatcher
+import os
+
+
+TOKEN = os.getenv('BOT_TOKEN')
+bot = telebot.TeleBot(token=TOKEN)
+
+
+id_dct = {}
 
 
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
-
-
-bot = telebot.TeleBot('5420233585:AAFUeq6tn5a-DG3FkgqYEYEUF6aqR-MDoTM')
-
-
-id_dct = {}
 
 
 @bot.message_handler(commands=['start'])
