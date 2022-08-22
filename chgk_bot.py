@@ -90,4 +90,4 @@ def handle_text(message):
         print(asctime() + ': ' + 'ConnectionError\n')
 
 
-bot.infinity_polling()
+bot.polling(none_stop=True, interval=0)
