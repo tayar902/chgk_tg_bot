@@ -80,7 +80,7 @@ def handle_text(message):
                     bot.send_message(message.chat.id, 'Ответ неверный :(\n')
                 else:
                     bot.send_message(message.chat.id, 'Вы ввели \
-                                        незнакомую команду \
+                        незнакомую команду \
                         \nНажмите "Вопрос ЧГК" для получения '
                                      + 'вопроса')
                 del id_dct[user_id][0][-1]
