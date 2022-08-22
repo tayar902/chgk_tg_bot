@@ -1,1 +1,1 @@
-web: python3 chgk_bot.py
+bot: python3 chgk_bot.py
