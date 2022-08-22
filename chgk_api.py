@@ -6,8 +6,7 @@ from time import asctime
 def get_soup():
     res = requests.get("https://db.chgk.info/random/answers/types1/ \
                         complexity2/795102375/limit1")
-    with open('log.txt', 'a') as output_f:
-        output_f.write(asctime() + ': ' + str(res) + '\n')
+    print(asctime() + ': ' + str(res) + '\n')
     soup = BeautifulSoup(res.text, 'html.parser')
     return soup
 
@@ -31,8 +30,7 @@ def get_question(all_text, soup):
             find('a').text
         question = 'Турнир: ' + str(tournament) + '\n\n' + 'Вопрос:\n'
     except AttributeError:
-        with open('log.txt', 'a') as output_f:
-            output_f.write(asctime() + ': ' + 'AttributeError\n')
+        print(asctime() + ': ' + 'AttributeError\n')
     i = 0
     try:
         img_html = soup.find('img')
@@ -51,8 +49,7 @@ def get_question(all_text, soup):
                 break
             i += 1
     except IndexError:
-        with open('log.txt', 'a') as output_f:
-            output_f.write(asctime() + ': ' + 'IndexError in question\n')
+        print(asctime() + ': ' + 'IndexError in question\n')
     return question
 
 
@@ -77,12 +74,10 @@ def get_answer(all_text):
                         i += 1
                     break
                 except IndexError:
-                    with open('log.txt', 'a') as output_f:
-                        output_f.write(asctime() + ': ' + 'IndexError\n')
+                    print(asctime() + ': ' + 'IndexError\n')
             i += 1
     except IndexError:
-        with open('log.txt', 'a') as output_f:
-            output_f.write(asctime() + ': ' + 'IndexError\n')
+        print(asctime() + ': ' + 'IndexError\n')
     return answer
 
 
@@ -106,10 +101,8 @@ def get_comment(all_text):
                         i += 1
                     break
                 except IndexError:
-                    with open('log.txt', 'a') as output_f:
-                        output_f.write(asctime() + ': ' + 'IndexError\n')
+                    print(asctime() + ': ' + 'IndexError\n')
             i += 1
     except IndexError:
-        with open('log.txt', 'a') as output_f:
-            output_f.write(asctime() + ': ' + 'IndexError\n')
+        print(asctime() + ': ' + 'IndexError\n')
     return comment

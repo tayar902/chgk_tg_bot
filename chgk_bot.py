@@ -86,7 +86,6 @@ def handle_text(message):
                 del id_dct[user_id][0][-1]
         except KeyError:
             bot.send_message(message.chat.id, 'Введите комманду /start')
-        print(id_dct, '\n\n')
     except ConnectionError:
         with open('log.txt', 'a') as output_f:
             output_f.write(asctime() + ': ' + 'ConnectionError\n')
