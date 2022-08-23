@@ -33,7 +33,7 @@ def start(m):
 def delete_markup(message):
     markup = telebot.types.ReplyKeyboardRemove()
     bot.send_message(message.from_user.id, 'Клавиатура удалена, чтобы снова \
-        воспользоваться ботом введите команду /start', reply_markup=markup)
+воспользоваться ботом введите команду /start', reply_markup=markup)
 
 
 @bot.message_handler(content_types=["text"])
