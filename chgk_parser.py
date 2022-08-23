@@ -4,8 +4,9 @@ from time import asctime
 
 
 def get_soup():
-    res = requests.get("https://db.chgk.info/random/answers/types1/ \
-                        complexity2/795102375/limit1")
+    url = ("https://db.chgk.info/random/answers/types1/" +
+           "complexity2/795102375/limit1")
+    res = requests.get(url)
     print(asctime() + ': ' + str(res) + '\n')
     soup = BeautifulSoup(res.text, 'html.parser')
     return soup
