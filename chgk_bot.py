@@ -79,9 +79,9 @@ def handle_text(message):
                 if info_dct[chat_id][0][0] == 'вопрос чгк':
                     bot.send_message(message.chat.id, 'Ответ неверный :(\n')
                 else:
-                    bot.send_message(message.chat.id, 'Вы ввели \
-                        незнакомую команду \
-                        \nНажмите "Вопрос ЧГК" для получения '
+                    bot.send_message(message.chat.id,
+                                     'Вы ввели незнакомую команду \
+                                    \nНажмите "Вопрос ЧГК" для получения '
                                      + 'вопроса')
                 del info_dct[chat_id][0][-1]
         except KeyError:
