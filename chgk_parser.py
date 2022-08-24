@@ -7,7 +7,6 @@ def get_soup():
     url = ("https://db.chgk.info/random/answers/types1/" +
            "complexity2/795102375/limit1")
     res = requests.get(url)
-    print(asctime() + ': ' + str(res) + '\n')
     soup = BeautifulSoup(res.text, 'html.parser')
     return soup
 
@@ -58,24 +57,19 @@ def get_answer(all_text):
     global i
     answer = ''
     try:
-        all_text[i]
         while True:
             if all_text[i] == 'Ответ:':
-                try:
-                    all_text[i]
-                    while (all_text[i][-1] != '.' and
-                           all_text[i+1] != 'Комментарий:' and
-                           all_text[i+1] != 'Источник(и):' and
-                           all_text[i+1] != 'Автор:' and
-                           all_text[i+1] != 'Авторы:' and
-                           all_text[i+1] != 'Зачёт:' and
-                           all_text[i+1] +
-                           all_text[i+2] != 'Случайныйпакет'):
-                        answer += all_text[i+1] + ' '
-                        i += 1
-                    break
-                except IndexError:
-                    print(asctime() + ': ' + 'IndexError in get_answer\n')
+                while (all_text[i][-1] != '.' and
+                        all_text[i+1] != 'Комментарий:' and
+                        all_text[i+1] != 'Источник(и):' and
+                        all_text[i+1] != 'Автор:' and
+                        all_text[i+1] != 'Авторы:' and
+                        all_text[i+1] != 'Зачёт:' and
+                        all_text[i+1] +
+                        all_text[i+2] != 'Случайныйпакет'):
+                    answer += all_text[i+1] + ' '
+                    i += 1
+                break
             i += 1
     except IndexError:
         print(asctime() + ': ' + 'IndexError in get_answer\n')
@@ -86,23 +80,18 @@ def get_comment(all_text):
     comment = ''
     global i
     try:
-        all_text[i]
         while True:
             if all_text[i] == 'Комментарий:' or all_text[i] == 'Источник(и):':
-                try:
-                    all_text[i]
-                    while (all_text[i] +
-                           all_text[i+1] != 'Случайныйпакет'):
-                        comment += all_text[i] + ' '
-                        if (all_text[i+1] == 'Источник(и):' or
-                            all_text[i+1] == 'Зачёт:' or
-                            all_text[i+1] == 'Автор:' or
-                                all_text[i+1] == 'Авторы:'):
-                            comment += '\n\n'
-                        i += 1
-                    break
-                except IndexError:
-                    print(asctime() + ': ' + 'IndexError in get_comment\n')
+                while (all_text[i] +
+                        all_text[i+1] != 'Случайныйпакет'):
+                    comment += all_text[i] + ' '
+                    if (all_text[i+1] == 'Источник(и):' or
+                        all_text[i+1] == 'Зачёт:' or
+                        all_text[i+1] == 'Автор:' or
+                            all_text[i+1] == 'Авторы:'):
+                        comment += '\n\n'
+                    i += 1
+                break
             i += 1
     except IndexError:
         print(asctime() + ': ' + 'IndexError in get_comment\n')

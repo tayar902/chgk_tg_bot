@@ -46,53 +46,52 @@ def handle_text(message):
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         global info_dct
         chat_id = message.chat.id
-        try:
-            info_dct[chat_id][0].append(message.text.strip().lower())
-            if message.text.strip().lower() == 'вопрос чгк':
-                item2 = types.KeyboardButton("Ответ")
-                markup.add(item2)
-                if info_dct[chat_id][0] == ['вопрос чгк']:
-                    question = chgk_parser.get_question(all_text, soup)
-                    info_dct[chat_id][1][0] = chgk_parser.get_answer(all_text)
-                    info_dct[chat_id][1][1] = chgk_parser.get_comment(all_text)
-                    outp_message = question
-                    bot.send_message(message.chat.id, outp_message,
-                                     reply_markup=markup)
-                else:
-                    del info_dct[chat_id][0][0]
-                bot.send_message(message.chat.id, 'Напишите ответ или' +
-                                 ' Нажмите "Ответ", чтобы '
-                                 + 'получить ответ')
-            elif message.text.strip().lower() == 'ответ':
-                item1 = types.KeyboardButton("Вопрос ЧГК")
-                markup.add(item1)
-                if info_dct[chat_id][0] == ['вопрос чгк', 'ответ']:
-                    outp_message = ('Ответ: ' + info_dct[chat_id][1][0] +
-                                    '\n\n' + info_dct[chat_id][1][1])
-                else:
-                    outp_message = 'Вы не запросили вопрос!'
-                info_dct[chat_id][0].clear()
+        info_dct[chat_id][0].append(message.text.strip().lower())
+        if message.text.strip().lower() == 'вопрос чгк':
+            item2 = types.KeyboardButton("Ответ")
+            markup.add(item2)
+            if info_dct[chat_id][0] == ['вопрос чгк']:
+                question = chgk_parser.get_question(all_text, soup)
+                info_dct[chat_id][1][0] = chgk_parser.get_answer(all_text)
+                info_dct[chat_id][1][1] = chgk_parser.get_comment(all_text)
+                outp_message = question
                 bot.send_message(message.chat.id, outp_message,
                                  reply_markup=markup)
-            elif similar(info_dct[chat_id][1][0].lower(),
-                         message.text.strip().lower()) >= 0.7:
-                item1 = types.KeyboardButton("Вопрос ЧГК")
-                markup.add(item1)
-                info_dct[chat_id][0].clear()
-                bot.send_message(message.chat.id, 'Абсолютно верно!' + '\n\n' +
-                                 info_dct[chat_id][1][1],
-                                 reply_markup=markup)
             else:
-                if info_dct[chat_id][0][0] == 'вопрос чгк':
-                    bot.send_message(message.chat.id, 'Ответ неверный :(\n')
-                else:
-                    bot.send_message(message.chat.id,
-                                     'Вы ввели незнакомую команду \
-                                    \nНажмите "Вопрос ЧГК" для получения '
-                                     + 'вопроса')
-                del info_dct[chat_id][0][-1]
-        except KeyError:
-            bot.send_message(message.chat.id, 'Введите комманду /start')
+                del info_dct[chat_id][0][0]
+            bot.send_message(message.chat.id, 'Напишите ответ или' +
+                             ' Нажмите "Ответ", чтобы '
+                             + 'получить ответ')
+        elif message.text.strip().lower() == 'ответ':
+            item1 = types.KeyboardButton("Вопрос ЧГК")
+            markup.add(item1)
+            if info_dct[chat_id][0] == ['вопрос чгк', 'ответ']:
+                outp_message = ('Ответ: ' + info_dct[chat_id][1][0] +
+                                '\n\n' + info_dct[chat_id][1][1])
+            else:
+                outp_message = 'Вы не запросили вопрос!'
+            info_dct[chat_id][0].clear()
+            bot.send_message(message.chat.id, outp_message,
+                             reply_markup=markup)
+        elif similar(info_dct[chat_id][1][0].lower(),
+                     message.text.strip().lower()) >= 0.7:
+            item1 = types.KeyboardButton("Вопрос ЧГК")
+            markup.add(item1)
+            info_dct[chat_id][0].clear()
+            bot.send_message(message.chat.id, 'Абсолютно верно!' + '\n\n' +
+                             info_dct[chat_id][1][1],
+                             reply_markup=markup)
+        else:
+            if info_dct[chat_id][0][0] == 'вопрос чгк':
+                bot.send_message(message.chat.id, 'Ответ неверный :(\n')
+            else:
+                bot.send_message(message.chat.id,
+                                 'Вы ввели незнакомую команду \
+                                \nНажмите "Вопрос ЧГК" для получения '
+                                 + 'вопроса')
+            del info_dct[chat_id][0][-1]
+    except KeyError:
+        bot.send_message(message.chat.id, 'Введите комманду /start')
     except ConnectionError:
         print(asctime() + ': ' + 'ConnectionError\n')
 
