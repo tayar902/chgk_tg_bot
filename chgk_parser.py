@@ -24,8 +24,6 @@ def get_question(all_text, soup):
     global i
     question = ''
     try:
-        soup.find('div', {'class': 'random_question'}). \
-            find('a').text
         tournament = soup.find('div', {'class': 'random_question'}). \
             find('a').text
         question = 'Турнир: ' + str(tournament) + '\n\n' + 'Вопрос:\n'
